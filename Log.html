@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCFA Submission Log</title>
+<style>
+body { font-family: -apple-system, sans-serif; background: #F0F4F8; margin: 0; padding: 20px; }
+.wrap { max-width: 700px; margin: 0 auto; }
+.header { background: #0F2A56; color: #fff; border-radius: 12px; padding: 24px; margin-bottom: 20px; text-align: center; }
+.header h1 { font-size: 20px; margin: 0 0 4px; }
+.header p { font-size: 13px; color: rgba(255,255,255,0.6); margin: 0; }
+.login-box { background: #fff; border-radius: 12px; padding: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+.login-box label { font-size: 12px; font-weight: 700; color: #6B7A96; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+.login-box input { width: 100%; padding: 12px; border: 1.5px solid #D4DBE8; border-radius: 8px; font-size: 15px; box-sizing: border-box; outline: none; }
+.login-box input:focus { border-color: #2D68C4; }
+.btn { display: block; width: 100%; background: #0F2A56; color: #fff; border: none; border-radius: 8px; padding: 14px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 14px; }
+.btn:hover { background: #2D68C4; }
+.error { color: #991B1B; font-size: 13px; margin-top: 8px; display: none; }
+.log-box { display: none; }
+.count-bar { background: #fff; border-radius: 10px; padding: 14px 18px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.count-bar span { font-size: 13px; color: #6B7A96; }
+.count-bar strong { font-size: 20px; color: #0F2A56; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+th { background: #0F2A56; color: #fff; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 12px 16px; text-align: left; font-weight: 600; }
+td { padding: 12px 16px; border-bottom: 1px solid #EEF0F4; font-size: 13px; color: #1A2030; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #F6F7FA; }
+.sub-id { font-family: monospace; font-size: 11px; color: #6B7A96; }
+.empty { text-align: center; padding: 40px; color: #6B7A96; font-style: italic; }
+.refresh-btn { background: none; border: 1px solid #D4DBE8; border-radius: 8px; padding: 8px 16px; font-size: 13px; color: #6B7A96; cursor: pointer; }
+.refresh-btn:hover { background: #F6F7FA; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>PCFA Submission Log</h1>
+    <p>Psychiatric Clinical Faculty Association &mdash; Private Access Only</p>
+  </div>
+
+  <div class="login-box" id="loginBox">
+    <label>Access Password</label>
+    <input type="password" id="pwdInput" placeholder="Enter password" onkeydown="if(event.key==='Enter')checkPwd()">
+    <button class="btn" onclick="checkPwd()">View Submissions</button>
+    <p class="error" id="pwdError">Incorrect password. Please try again.</p>
+  </div>
+
+  <div class="log-box" id="logBox">
+    <div class="count-bar">
+      <span>Total submissions</span>
+      <div>
+        <strong id="totalCount">—</strong>
+        <button class="refresh-btn" onclick="loadLog()" style="margin-left:12px">&#8635; Refresh</button>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Submitted</th>
+          <th>Submission ID</th>
+        </tr>
+      </thead>
+      <tbody id="logBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+var BIN_ID  = '699be55fae596e708f414b9e';
+var API_KEY = '$2a$10$OY9Hl7vDi4yyB2224ol6t.Vk56BEk3d/wanIGtgH9HJxQYoDtgaUG';
+var PASSWORD = 'pcfa2026';  // Change this to whatever password you want
+
+function checkPwd() {
+  var pwd = document.getElementById('pwdInput').value;
+  if (pwd === PASSWORD) {
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('logBox').style.display = 'block';
+    loadLog();
+  } else {
+    document.getElementById('pwdError').style.display = 'block';
+  }
+}
+
+function loadLog() {
+  document.getElementById('logBody').innerHTML = '<tr><td colspan="5" class="empty">Loading...</td></tr>';
+  fetch('https://api.jsonbin.io/v3/b/' + BIN_ID + '/latest', {
+    headers: { 'X-Master-Key': API_KEY }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    var subs = (data.record && data.record.submissions) ? data.record.submissions : [];
+    document.getElementById('totalCount').textContent = subs.length;
+    if (subs.length === 0) {
+      document.getElementById('logBody').innerHTML = '<tr><td colspan="5" class="empty">No submissions yet.</td></tr>';
+      return;
+    }
+    // Show newest first
+    var rows = subs.slice().reverse().map(function(s, i) {
+      return '<tr>'
+        + '<td>' + (subs.length - i) + '</td>'
+        + '<td><strong>' + (s.name || '—') + '</strong></td>'
+        + '<td>' + (s.email || '—') + '</td>'
+        + '<td>' + (s.date || '—') + '</td>'
+        + '<td class="sub-id">' + (s.id || '—') + '</td>'
+        + '</tr>';
+    }).join('');
+    document.getElementById('logBody').innerHTML = rows;
+  })
+  .catch(function() {
+    document.getElementById('logBody').innerHTML = '<tr><td colspan="5" class="empty">Error loading data. Check connection.</td></tr>';
+  });
+}
+</script>
+
+</body>
+</html>
