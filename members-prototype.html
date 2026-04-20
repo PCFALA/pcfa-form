@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Members — Psychiatric Clinical Faculty Association at UCLA</title>
+<style>
+  :root {
+    --navy: #2c3e50;
+    --navy-dark: #1a2634;
+    --accent: #8b6b3d;
+    --bg: #faf8f4;
+    --bg-soft: #f1ede4;
+    --border: #d9d3c5;
+    --text: #2d2a24;
+    --text-soft: #6b655a;
+    --edit: #c65d47;
+    --edit-bg: #fff4f1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 1.5rem 2rem;
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  h1.site-title {
+    font-size: 1.4rem;
+    font-weight: normal;
+    letter-spacing: 0.02em;
+  }
+  nav.top-nav {
+    display: flex;
+    gap: 1.2rem;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+  }
+  nav.top-nav a {
+    color: #d4ccc0;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  nav.top-nav a:hover, nav.top-nav a.active { color: white; }
+
+.page-hero {
+background: var(–bg-soft);
+padding: 3rem 2rem 2rem;
+border-bottom: 1px solid var(–border);
+}
+.page-hero-inner {
+max-width: 1100px;
+margin: 0 auto;
+}
+h2.page-title {
+font-size: 2.2rem;
+font-weight: normal;
+color: var(–navy);
+margin-bottom: 0.5rem;
+letter-spacing: -0.01em;
+}
+.page-subtitle {
+font-style: italic;
+color: var(–text-soft);
+font-size: 1rem;
+}
+
+main {
+max-width: 1100px;
+margin: 0 auto;
+padding: 2rem;
+}
+
+.intro-box {
+background: white;
+border-left: 4px solid var(–accent);
+padding: 1.2rem 1.5rem;
+margin-bottom: 1.5rem;
+font-style: italic;
+font-size: 0.95rem;
+color: var(–text-soft);
+}
+.intro-box a {
+color: var(–accent);
+font-weight: 600;
+}
+
+.controls {
+display: flex;
+gap: 0.8rem;
+align-items: center;
+margin-bottom: 1.5rem;
+flex-wrap: wrap;
+}
+.search-wrap {
+flex: 1;
+min-width: 200px;
+position: relative;
+}
+.search-wrap input {
+width: 100%;
+padding: 0.7rem 1rem 0.7rem 2.5rem;
+border: 1px solid var(–border);
+background: white;
+font-family: inherit;
+font-size: 0.95rem;
+border-radius: 2px;
+}
+.search-wrap input:focus {
+outline: none;
+border-color: var(–navy);
+}
+.search-wrap::before {
+content: ‘⌕’;
+position: absolute;
+left: 0.9rem;
+top: 50%;
+transform: translateY(-50%);
+color: var(–text-soft);
+font-size: 1.1rem;
+}
+.meta-line {
+font-size: 0.85rem;
+color: var(–text-soft);
+}
+.last-updated {
+font-size: 0.85rem;
+color: var(–text-soft);
+margin-bottom: 1rem;
+}
+
+.members-grid {
+column-count: 3;
+column-gap: 2rem;
+column-rule: 1px solid var(–border);
+}
+@media (max-width: 800px) { .members-grid { column-count: 2; } }
+@media (max-width: 500px) { .members-grid { column-count: 1; } }
+
+.member {
+break-inside: avoid;
+padding: 0.35rem 0;
+font-size: 0.95rem;
+position: relative;
+}
+.member a {
+color: var(–navy);
+text-decoration: none;
+border-bottom: 1px dotted var(–navy);
+}
+.member a:hover {
+color: var(–accent);
+border-bottom-color: var(–accent);
+}
+.member.no-link {
+color: var(–text);
+}
+
+/* ––––– ADMIN MODE ––––– */
+.admin-toggle {
+background: var(–edit);
+color: white;
+border: none;
+padding: 0.6rem 1.1rem;
+font-family: inherit;
+font-size: 0.9rem;
+cursor: pointer;
+border-radius: 2px;
+transition: background 0.2s;
+}
+.admin-toggle:hover { background: #a34832; }
+.admin-toggle.active { background: #2c7a3f; }
+.admin-toggle.active:hover { background: #205c2f; }
+
+.admin-bar {
+display: none;
+background: var(–edit-bg);
+border: 1px solid var(–edit);
+padding: 1rem 1.2rem;
+margin-bottom: 1.5rem;
+border-radius: 2px;
+}
+body.admin-mode .admin-bar { display: block; }
+.admin-bar h3 {
+color: var(–edit);
+font-size: 1rem;
+margin-bottom: 0.5rem;
+}
+.admin-bar p {
+font-size: 0.9rem;
+color: var(–text);
+margin-bottom: 0.8rem;
+}
+.admin-actions {
+display: flex;
+gap: 0.5rem;
+flex-wrap: wrap;
+}
+.admin-btn {
+background: white;
+border: 1px solid var(–edit);
+color: var(–edit);
+padding: 0.4rem 0.9rem;
+font-family: inherit;
+font-size: 0.85rem;
+cursor: pointer;
+border-radius: 2px;
+}
+.admin-btn:hover { background: var(–edit); color: white; }
+.admin-btn.primary { background: var(–edit); color: white; }
+.admin-btn.primary:hover { background: #a34832; }
+
+body.admin-mode .member {
+padding: 0.4rem 0.5rem;
+margin: 0.15rem 0;
+border-radius: 3px;
+cursor: pointer;
+transition: background 0.15s;
+}
+body.admin-mode .member:hover {
+background: var(–edit-bg);
+outline: 1px dashed var(–edit);
+}
+body.admin-mode .member::after {
+content: ’ ✎’;
+color: var(–edit);
+font-size: 0.8rem;
+opacity: 0;
+transition: opacity 0.15s;
+}
+body.admin-mode .member:hover::after { opacity: 1; }
+
+/* ––––– MODAL ––––– */
+.modal-backdrop {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(26, 38, 52, 0.6);
+z-index: 100;
+align-items: center;
+justify-content: center;
+padding: 1rem;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+background: white;
+border-top: 4px solid var(–accent);
+padding: 2rem;
+max-width: 480px;
+width: 100%;
+border-radius: 2px;
+box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.modal h3 {
+color: var(–navy);
+font-weight: normal;
+font-size: 1.3rem;
+margin-bottom: 1.2rem;
+padding-bottom: 0.8rem;
+border-bottom: 1px solid var(–border);
+}
+.modal label {
+display: block;
+font-size: 0.85rem;
+color: var(–text-soft);
+margin-bottom: 0.3rem;
+margin-top: 0.9rem;
+}
+.modal input[type=“text”], .modal input[type=“url”] {
+width: 100%;
+padding: 0.6rem;
+border: 1px solid var(–border);
+font-family: inherit;
+font-size: 0.95rem;
+border-radius: 2px;
+}
+.modal input:focus { outline: none; border-color: var(–navy); }
+.modal-actions {
+display: flex;
+justify-content: space-between;
+gap: 0.5rem;
+margin-top: 1.5rem;
+padding-top: 1rem;
+border-top: 1px solid var(–border);
+}
+.modal-actions .left { display: flex; gap: 0.5rem; }
+.modal-actions .right { display: flex; gap: 0.5rem; }
+
+footer {
+text-align: center;
+padding: 2rem;
+color: var(–text-soft);
+font-size: 0.85rem;
+border-top: 1px solid var(–border);
+margin-top: 3rem;
+}
+
+.add-member-row {
+display: none;
+background: var(–edit-bg);
+padding: 1rem;
+margin-bottom: 1rem;
+border-radius: 2px;
+gap: 0.5rem;
+flex-wrap: wrap;
+}
+body.admin-mode .add-member-row { display: flex; }
+.add-member-row input {
+flex: 1;
+min-width: 150px;
+padding: 0.5rem;
+border: 1px solid var(–border);
+font-family: inherit;
+border-radius: 2px;
+}
+
+.saved-toast {
+position: fixed;
+bottom: 2rem;
+right: 2rem;
+background: #2c7a3f;
+color: white;
+padding: 0.8rem 1.4rem;
+border-radius: 2px;
+font-size: 0.9rem;
+opacity: 0;
+transform: translateY(10px);
+transition: all 0.3s;
+pointer-events: none;
+z-index: 200;
+}
+.saved-toast.show { opacity: 1; transform: translateY(0); }
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1 class="site-title">Psychiatric Clinical Faculty Association at UCLA</h1>
+    <nav class="top-nav">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#" class="active">Members</a>
+      <a href="#">Events</a>
+      <a href="#">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <h2 class="page-title">Members</h2>
+    <p class="page-subtitle">Active Voluntary Clinical Faculty of the David Geffen School of Medicine at UCLA</p>
+  </div>
+</section>
+
+<main>
+  <div class="intro-box">
+    If you are a member and would like a profile page or wish to update your profile page, please contact the PCFA Executive Director, <a href="mailto:psychiatricclinicalfaculty@gmail.com">Lela DeGolia</a>.
+  </div>
+
+  <div class="admin-bar">
+    <h3>Admin Mode Active</h3>
+    <p>Click any member to edit their name or profile link. Use the row below to add new members. Your changes save automatically to this browser for preview — in the real WordPress version, they'd save to the live site.</p>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="exportData()">Export List (JSON)</button>
+      <button class="admin-btn" onclick="exportCSV()">Export List (CSV for Excel)</button>
+      <button class="admin-btn" onclick="viewJSON()">View JSON on Screen</button>
+      <button class="admin-btn" onclick="updateTimestamp()">Update "Last Updated" Date</button>
+      <button class="admin-btn" onclick="resetToOriginal()" style="border-color:#8b6b3d; color:#8b6b3d;">Reset to Original List</button>
+    </div>
+  </div>
+
+  <div class="add-member-row">
+    <input type="text" id="newLast" placeholder="Last name">
+    <input type="text" id="newFirst" placeholder="First name (and middle initial)">
+    <input type="url" id="newLink" placeholder="UCLA profile URL (optional)">
+    <button class="admin-btn primary" onclick="addMember()">+ Add Member</button>
+  </div>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <input type="text" id="searchBox" placeholder="Search members by name…" oninput="filterMembers()">
+    </div>
+    <button class="admin-toggle" id="adminToggle" onclick="toggleAdmin()">Enable Admin Mode</button>
+  </div>
+
+  <p class="last-updated" id="lastUpdated">Active roster — 105 members</p>
+
+  <div class="members-grid" id="membersGrid"></div>
+</main>
+
+<footer>
+  Copyright © 2018–2026 · Psychiatric Clinical Faculty Association at UCLA
+</footer>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h3>Edit Member</h3>
+    <label>Last name</label>
+    <input type="text" id="editLast">
+    <label>First name (and middle initial)</label>
+    <input type="text" id="editFirst">
+    <label>UCLA profile URL (leave blank for no link)</label>
+    <input type="url" id="editLink" placeholder="https://teams.semel.ucla.edu/profile/...">
+    <div class="modal-actions">
+      <div class="left">
+        <button class="admin-btn" id="deleteBtn" onclick="deleteMember()" style="border-color:#b33; color:#b33;">Delete</button>
+      </div>
+      <div class="right">
+        <button class="admin-btn" onclick="closeModal()">Cancel</button>
+        <button class="admin-btn primary" onclick="saveMember()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="jsonModal">
+  <div class="modal" style="max-width: 640px;">
+    <h3>Member List (JSON)</h3>
+    <p style="font-size:0.85rem; color:var(--text-soft); margin-bottom:0.8rem;">
+      This is the structured data behind the list — <span id="jsonCount">0</span> members.
+      Tap "Copy All" to copy it to your clipboard, or "Select All" and copy manually.
+    </p>
+    <textarea id="jsonOutput" readonly style="width:100%; height:260px; padding:0.6rem; border:1px solid var(--border); font-family:monospace; font-size:0.8rem; border-radius:2px; resize:vertical; background:#faf8f4; color:var(--text);"></textarea>
+    <div class="modal-actions">
+      <div class="left">
+        <button class="admin-btn" onclick="copyJSON()">Copy All</button>
+        <button class="admin-btn" onclick="selectJSON()">Select All</button>
+      </div>
+      <div class="right">
+        <button class="admin-btn primary" onclick="closeJsonModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="saved-toast" id="toast">Saved ✓</div>
+
+<script>
+// ===== Initial data (parsed from current pcfala.net/members) =====
+const DEFAULT_MEMBERS = [
+  ["Alt","Winston D"],
+  ["Ashley","Robert V","https://teams.semel.ucla.edu/profile/robert-v-ashley"],
+  ["Auerbach","Daniel B"],
+  ["Barenstein","Veronica R"],
+  ["Barkopoulos","Paul N","https://teams.semel.ucla.edu/profile/paul-barkopoulos"],
+  ["Beckson","Mace"],
+  ["Berman","Robin L"],
+  ["Boerlin","Harold Louis"],
+  ["Dadoyan","Talin Arsen"],
+  ["Davidson","Jacob"],
+  ["DeGolia","Van Dyke","https://teams.semel.ucla.edu/profile/van-dyke-degolia"],
+  ["Delaloye","Sibylle"],
+  ["Diament","Tiffany"],
+  ["Dohrmann","Elizabeth Howell"],
+  ["Donner","Susan Lynn","https://teams.semel.ucla.edu/profile/susan-lynn-donner"],
+  ["Faerstein","Saul J","https://teams.semel.ucla.edu/profile/saul-faerstein"],
+  ["Fein","Deborah Jennifer","https://teams.semel.ucla.edu/profile/deborah-fein"],
+  ["Feng","Wenqi"],
+  ["Finley","Joshua Benjamin"],
+  ["Fogelson","David L","https://teams.semel.ucla.edu/profile/david-l-fogelson"],
+  ["Freedman","Joshua E"],
+  ["Freeman","Donald T"],
+  ["Friedman","David L","https://teams.semel.ucla.edu/profile/david-l-friedman"],
+  ["Fujii","June","https://teams.semel.ucla.edu/profile/june-fujii"],
+  ["Goldberg","Aryeh Lee"],
+  ["Goldberg","Joshua"],
+  ["Guryev","Igor"],
+  ["Harris","Dana"],
+  ["Heiser","Marc Aaron"],
+  ["Hradesky","Christine","https://teams.semel.ucla.edu/profile/christine-hradesky"],
+  ["Hyoun","Sara Choe"],
+  ["Ishak","Waguih"],
+  ["Jalali","Behnaz"],
+  ["Kambam","Praveen R"],
+  ["Kim","Tae Soon"],
+  ["Koury","Matthew N","https://teams.semel.ucla.edu/profile/matthew-koury-md-mph"],
+  ["Kumar","Jaswinder S"],
+  ["Lee","Jason"],
+  ["Leiken","Stanley J","https://teams.semel.ucla.edu/profile/stanley-leiken-md"],
+  ["Levander","Eric M"],
+  ["Lin","Alex","https://teams.semel.ucla.edu/profile/alex-s-lin"],
+  ["Little","John Zebulon","https://teams.semel.ucla.edu/profile/john-z-little"],
+  ["Lochte","Bryson"],
+  ["Lynn","Deborah Elizabeth"],
+  ["Lyu","Hee-Sang"],
+  ["Majid","Dewan-Syed Adnan"],
+  ["Malik","Arsalan","https://teams.semel.ucla.edu/profile/arsalan-malik"],
+  ["Martinez","Jeremy David"],
+  ["Marusak","Gregory"],
+  ["Marusak","Susan Lynn"],
+  ["Melnyk","Kristen A","https://teams.semel.ucla.edu/profile/kristen-melnyk"],
+  ["Merrill","David A"],
+  ["Metzner","Richard J","https://teams.semel.ucla.edu/profile/richard-j-metzner-md"],
+  ["Moradi","S Robert"],
+  ["Mourra","Sarah Nena"],
+  ["Nabieva","Guiouzel"],
+  ["Nair","Mohan S"],
+  ["Nanda","Nitin"],
+  ["Navarro","Francisco"],
+  ["Newman","Elisa B"],
+  ["Nie","Pei-Huey"],
+  ["Orloff","Judith","https://teams.semel.ucla.edu/profile/judith-orloff"],
+  ["Pack","Allen T","https://teams.semel.ucla.edu/profile/allen-t-pack"],
+  ["Patel","Alpa Ashok"],
+  ["Plotkin","Daniel Alan","https://teams.semel.ucla.edu/profile/daniel-alan-plotkin"],
+  ["Poblete","Jobert Ballesteros"],
+  ["Portney","Charles W","https://teams.semel.ucla.edu/profile/charles-w-portney"],
+  ["Pretsky","Joshua Emanuel","https://teams.semel.ucla.edu/profile/joshua-pretsky"],
+  ["Puri","Paul Rajesh","https://teams.semel.ucla.edu/profile/paul-r-puri"],
+  ["Pyo","Thomas"],
+  ["Rasminsky","Sonya Rachel"],
+  ["Resnick","William Jay"],
+  ["Rosenstein","Wendy"],
+  ["Rosenthal","Richard J"],
+  ["Rosseel","Sophie Lucas Suzanne"],
+  ["Sadja","Lee Y"],
+  ["Salk","Jonathan D"],
+  ["Sandler","Wayne","https://teams.semel.ucla.edu/profile/wayne-sandler"],
+  ["Sawyer","Jolene Katherine"],
+  ["Sayer","Gregory Robert"],
+  ["Schaefer","Daniel W"],
+  ["Schmidt-Lackner","Susan"],
+  ["Siegel","Daniel J"],
+  ["Smith-White","Katherine Danielle"],
+  ["Sones","Alexander Cera"],
+  ["Sones","David"],
+  ["Spanos","Brooke Hansen"],
+  ["Specter","S E"],
+  ["Striebel","Joan Margaret"],
+  ["Suri","Rita A"],
+  ["Thompson","Christopher Rever","https://teams.semel.ucla.edu/profile/christopher-r-thompson"],
+  ["Thompson","J Mark","https://teams.semel.ucla.edu/profile/j-mark-thompson"],
+  ["Tuch","Richard H"],
+  ["Unverferth","Katherine Marie"],
+  ["Varteresian","Taya Crystal"],
+  ["Vilinsky","Debra F","https://teams.semel.ucla.edu/profile/debra-vilinsky"],
+  ["Wang","Andrew"],
+  ["Weiss","Diane J","https://teams.semel.ucla.edu/profile/diane-j-weiss"],
+  ["Wilkins","Jeffery Neal"],
+  ["Williams","Kira Ann"],
+  ["Wolf","Nancy S"],
+  ["Yaghmaie","Farzin"],
+  ["Yaghoubi","Farhad Khorrami"],
+  ["Yegiazaryan","Lilit Oganesovn"],
+  ["Zukerman","Lori J"]
+];
+
+let members = [];
+let editingIndex = null;
+const MEMBERS_VERSION = 'v2-105active-2026';
+
+async function loadMembers() {
+  try {
+    const versionResult = await window.storage.get('pcfa-members-version');
+    const storedVersion = versionResult && versionResult.value ? versionResult.value : null;
+
+    // If stored version doesn't match current, migrate to new default list
+    if (storedVersion !== MEMBERS_VERSION) {
+      members = DEFAULT_MEMBERS.map(m => ({ last: m[0], first: m[1], link: m[2] || null }));
+      await saveAll();
+      try { await window.storage.set('pcfa-members-version', MEMBERS_VERSION); } catch {}
+      try { await window.storage.delete('pcfa-members-updated'); } catch {}
+    } else {
+      const result = await window.storage.get('pcfa-members');
+      if (result && result.value) {
+        members = JSON.parse(result.value);
+      } else {
+        members = DEFAULT_MEMBERS.map(m => ({ last: m[0], first: m[1], link: m[2] || null }));
+        await saveAll();
+      }
+    }
+  } catch {
+    members = DEFAULT_MEMBERS.map(m => ({ last: m[0], first: m[1], link: m[2] || null }));
+  }
+  try {
+    const ts = await window.storage.get('pcfa-members-updated');
+    if (ts && ts.value) document.getElementById('lastUpdated').textContent = 'Last updated ' + ts.value;
+  } catch {}
+  render();
+}
+
+async function saveAll() {
+  try { await window.storage.set('pcfa-members', JSON.stringify(members)); } catch {}
+}
+
+function sortMembers() {
+  members.sort((a, b) => {
+    const la = a.last.toLowerCase(), lb = b.last.toLowerCase();
+    if (la !== lb) return la < lb ? -1 : 1;
+    return a.first.toLowerCase() < b.first.toLowerCase() ? -1 : 1;
+  });
+}
+
+function render() {
+  sortMembers();
+  const grid = document.getElementById('membersGrid');
+  const q = document.getElementById('searchBox').value.toLowerCase().trim();
+  grid.innerHTML = '';
+  members.forEach((m, i) => {
+    const fullname = `${m.last}, ${m.first}`.toLowerCase();
+    if (q && !fullname.includes(q)) return;
+    const div = document.createElement('div');
+    div.className = 'member' + (m.link ? '' : ' no-link');
+    div.dataset.index = i;
+    if (m.link) {
+      div.innerHTML = `<a href="${m.link}" target="_blank" rel="noopener">${m.last}, ${m.first}</a>`;
+    } else {
+      div.textContent = `${m.last}, ${m.first}`;
+    }
+    div.addEventListener('click', (e) => {
+      if (document.body.classList.contains('admin-mode')) {
+        e.preventDefault();
+        openEditModal(i);
+      }
+    });
+    grid.appendChild(div);
+  });
+}
+
+function filterMembers() { render(); }
+
+function toggleAdmin() {
+  document.body.classList.toggle('admin-mode');
+  const btn = document.getElementById('adminToggle');
+  if (document.body.classList.contains('admin-mode')) {
+    btn.textContent = 'Exit Admin Mode';
+    btn.classList.add('active');
+  } else {
+    btn.textContent = 'Enable Admin Mode';
+    btn.classList.remove('active');
+  }
+}
+
+function openEditModal(i) {
+  editingIndex = i;
+  const m = members[i];
+  document.getElementById('editLast').value = m.last;
+  document.getElementById('editFirst').value = m.first;
+  document.getElementById('editLink').value = m.link || '';
+  // Reset delete button to safe state
+  const btn = document.getElementById('deleteBtn');
+  if (btn) {
+    deleteArmed = false;
+    btn.textContent = 'Delete';
+    btn.style.setProperty('background', '#ffffff', 'important');
+    btn.style.setProperty('color', '#b33', 'important');
+    btn.style.setProperty('border-color', '#b33', 'important');
+    btn.style.setProperty('font-weight', 'normal', 'important');
+  }
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  editingIndex = null;
+}
+
+async function saveMember() {
+  if (editingIndex === null) return;
+  members[editingIndex] = {
+    last: document.getElementById('editLast').value.trim(),
+    first: document.getElementById('editFirst').value.trim(),
+    link: document.getElementById('editLink').value.trim() || null
+  };
+  await saveAll();
+  closeModal();
+  render();
+  showToast('Saved ✓');
+}
+
+let deleteArmed = false;
+
+async function deleteMember() {
+  if (editingIndex === null) return;
+  const btn = document.getElementById('deleteBtn');
+  if (!deleteArmed) {
+    deleteArmed = true;
+    btn.textContent = 'Tap again to confirm delete';
+    btn.style.setProperty('background', '#b33', 'important');
+    btn.style.setProperty('color', '#ffffff', 'important');
+    btn.style.setProperty('border-color', '#b33', 'important');
+    btn.style.setProperty('font-weight', '600', 'important');
+    setTimeout(() => {
+      if (deleteArmed) {
+        deleteArmed = false;
+        btn.textContent = 'Delete';
+        btn.style.setProperty('background', '#ffffff', 'important');
+        btn.style.setProperty('color', '#b33', 'important');
+        btn.style.setProperty('border-color', '#b33', 'important');
+        btn.style.setProperty('font-weight', 'normal', 'important');
+      }
+    }, 4000);
+    return;
+  }
+  const removed = members[editingIndex];
+  members.splice(editingIndex, 1);
+  await saveAll();
+  deleteArmed = false;
+  btn.textContent = 'Delete';
+  btn.style.setProperty('background', '#ffffff', 'important');
+  btn.style.setProperty('color', '#b33', 'important');
+  btn.style.setProperty('border-color', '#b33', 'important');
+  btn.style.setProperty('font-weight', 'normal', 'important');
+  closeModal();
+  render();
+  showToast(`Removed ${removed.last}, ${removed.first} ✓`);
+}
+
+async function addMember() {
+  const last = document.getElementById('newLast').value.trim();
+  const first = document.getElementById('newFirst').value.trim();
+  const link = document.getElementById('newLink').value.trim();
+  if (!last || !first) { alert('Please enter both last and first name.'); return; }
+  members.push({ last, first, link: link || null });
+  await saveAll();
+  document.getElementById('newLast').value = '';
+  document.getElementById('newFirst').value = '';
+  document.getElementById('newLink').value = '';
+  render();
+  showToast('Added ✓');
+}
+
+async function updateTimestamp() {
+  const now = new Date();
+  const mm = String(now.getMonth()+1).padStart(2,'0');
+  const dd = String(now.getDate()).padStart(2,'0');
+  const yyyy = now.getFullYear();
+  const stamp = `${mm}/${dd}/${yyyy}`;
+  try { await window.storage.set('pcfa-members-updated', stamp); } catch {}
+  document.getElementById('lastUpdated').textContent = 'Last updated ' + stamp;
+  showToast('Timestamp updated ✓');
+}
+
+async function resetToOriginal() {
+  if (!confirm('Reset the list back to the 105 current active members? This will undo all additions, deletions, and edits you have made in this prototype.')) return;
+  members = DEFAULT_MEMBERS.map(m => ({ last: m[0], first: m[1], link: m[2] || null }));
+  await saveAll();
+  try { await window.storage.delete('pcfa-members-updated'); } catch {}
+  document.getElementById('lastUpdated').textContent = 'Active roster — 105 members';
+  render();
+  showToast('Reset to original ✓');
+}
+
+function viewJSON() {
+  const text = JSON.stringify(members, null, 2);
+  document.getElementById('jsonOutput').value = text;
+  document.getElementById('jsonCount').textContent = members.length;
+  document.getElementById('jsonModal').classList.add('open');
+}
+
+function closeJsonModal() {
+  document.getElementById('jsonModal').classList.remove('open');
+}
+
+function selectJSON() {
+  const ta = document.getElementById('jsonOutput');
+  ta.focus();
+  ta.select();
+}
+
+async function copyJSON() {
+  const text = document.getElementById('jsonOutput').value;
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast('Copied to clipboard ✓');
+  } catch {
+    // Fallback for browsers without clipboard API
+    selectJSON();
+    try {
+      document.execCommand('copy');
+      showToast('Copied ✓');
+    } catch {
+      showToast('Select and copy manually');
+    }
+  }
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(members, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'pcfa-members.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportCSV() {
+  // Sort for consistent output
+  const sorted = [...members].sort((a, b) => {
+    const la = a.last.toLowerCase(), lb = b.last.toLowerCase();
+    if (la !== lb) return la < lb ? -1 : 1;
+    return a.first.toLowerCase() < b.first.toLowerCase() ? -1 : 1;
+  });
+  const esc = (s) => {
+    if (s == null) return '';
+    const str = String(s);
+    // Wrap in quotes if it contains comma, quote, or newline; double internal quotes
+    if (/[",\n\r]/.test(str)) return '"' + str.replace(/"/g, '""') + '"';
+    return str;
+  };
+  const rows = [['Last Name','First Name','UCLA Profile Link']];
+  sorted.forEach(m => rows.push([m.last, m.first, m.link || '']));
+  const csv = rows.map(r => r.map(esc).join(',')).join('\r\n');
+  // Add BOM so Excel recognizes UTF-8
+  const blob = new Blob(['\ufeff' + csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'pcfa-members.csv'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('CSV downloaded ✓');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target.id === 'modal') closeModal();
+});
+document.getElementById('jsonModal').addEventListener('click', (e) => {
+  if (e.target.id === 'jsonModal') closeJsonModal();
+});
+
+loadMembers();
+</script>
+
+</body>
+</html>
