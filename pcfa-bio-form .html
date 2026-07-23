@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCFA Member Profile Form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#182642;
+    --ink-soft:#3c4a63;
+    --gold:#a97c2f;
+    --gold-soft:#cfa864;
+    --cream:#f7f5ef;
+    --paper:#ffffff;
+    --line:#dcd6c8;
+    --error:#9a3324;
+    --ok:#2f5d3a;
+    --radius:3px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--gold);}
+
+  /* Letterhead */
+  header.letterhead{
+    background:var(--ink);
+    color:var(--cream);
+    padding:2.5rem 1.5rem 2rem;
+    text-align:center;
+    border-bottom:4px solid var(--gold);
+  }
+  header.letterhead .mark{
+    font-family:'Source Serif 4',serif;
+    font-weight:700;
+    font-size:0.85rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    margin-bottom:0.75rem;
+  }
+  header.letterhead h1{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:clamp(1.6rem,4vw,2.4rem);
+    margin:0 0 0.5rem;
+  }
+  header.letterhead p{
+    margin:0;
+    color:#c7cede;
+    font-size:0.95rem;
+    max-width:38rem;
+    margin:0 auto;
+  }
+
+  main{
+    max-width:44rem;
+    margin:0 auto;
+    padding:2.5rem 1.25rem 6rem;
+  }
+
+  .intro{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:4px solid var(--gold);
+    padding:1.25rem 1.5rem;
+    border-radius:var(--radius);
+    margin-bottom:2.5rem;
+    font-size:0.95rem;
+    color:var(--ink-soft);
+  }
+  .intro strong{color:var(--ink);}
+
+  form{display:flex;flex-direction:column;gap:0;}
+
+  fieldset{
+    border:none;
+    margin:0 0 2.75rem;
+    padding:0;
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:0.9rem;
+    margin-bottom:1.25rem;
+    padding-bottom:0.6rem;
+    border-bottom:1px solid var(--line);
+  }
+  .section-head .num{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:0.85rem;
+    color:var(--gold);
+    letter-spacing:0.08em;
+  }
+  .section-head h2{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:1.35rem;
+    margin:0;
+    color:var(--ink);
+  }
+  .section-head .hint{
+    margin-left:auto;
+    font-size:0.78rem;
+    color:#8a8471;
+    font-style:italic;
+    white-space:nowrap;
+  }
+
+  .field-block{
+    border-left:2px solid var(--line);
+    padding-left:1.1rem;
+    margin-bottom:1.5rem;
+  }
+  .field-block > .label-row{
+    font-weight:600;
+    font-size:0.95rem;
+    margin-bottom:0.65rem;
+    color:var(--ink);
+  }
+  .field-block > .label-row .req{color:var(--error);margin-left:0.15rem;}
+  .field-block .sub{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    margin:-0.35rem 0 0.65rem;
+  }
+
+  label.small-label{
+    display:block;
+    font-size:0.78rem;
+    font-weight:500;
+    color:var(--ink-soft);
+    margin-bottom:0.3rem;
+  }
+
+  input[type=text], input[type=number], input[type=email], input[type=tel], input[type=time], input[type=file], textarea, select{
+    width:100%;
+    font-family:'Inter',sans-serif;
+    font-size:0.95rem;
+    padding:0.6rem 0.7rem;
+    border:1px solid #c9c2ae;
+    border-radius:var(--radius);
+    background:var(--paper);
+    color:var(--ink);
+  }
+  input:focus, textarea:focus, select:focus{
+    outline:3px solid #c9a15c66;
+    outline-offset:1px;
+    border-color:var(--gold);
+  }
+  textarea{resize:vertical;min-height:4.5rem;}
+
+  .grid-2{display:grid;grid-template-columns:1fr 2fr;gap:0.75rem;margin-bottom:0.6rem;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 2fr;gap:0.75rem;margin-bottom:0.6rem;}
+  .grid-name{display:grid;grid-template-columns:1fr 1fr 2fr;gap:0.75rem;margin-bottom:0.6rem;}
+  @media (max-width:560px){
+    .grid-2,.grid-3,.grid-name{grid-template-columns:1fr;}
+  }
+
+  .degree-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 2fr auto;
+    gap:0.75rem;
+    margin-bottom:0.6rem;
+    align-items:end;
+  }
+  @media (max-width:560px){.degree-row{grid-template-columns:1fr;}}
+  .degree-row .remove-row{
+    background:none;border:1px solid var(--line);border-radius:var(--radius);
+    color:var(--error);cursor:pointer;padding:0.55rem 0.6rem;font-size:0.8rem;height:fit-content;
+  }
+  .add-row-btn{
+    background:none;
+    border:1px dashed var(--gold-soft);
+    color:var(--gold);
+    border-radius:var(--radius);
+    padding:0.45rem 0.9rem;
+    font-size:0.82rem;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:0.3rem;
+  }
+  .add-row-btn:hover{background:#fbf3e4;}
+
+  /* Checkbox pills for patient types */
+  .pill-group{display:flex;flex-wrap:wrap;gap:0.55rem;}
+  .pill{
+    position:relative;
+  }
+  .pill input{position:absolute;opacity:0;width:0;height:0;}
+  .pill label{
+    display:inline-block;
+    padding:0.42rem 0.9rem;
+    border:1px solid #c9c2ae;
+    border-radius:99px;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    cursor:pointer;
+    background:var(--paper);
+    transition:all .12s ease;
+  }
+  .pill input:checked + label{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:#fff;
+  }
+  .pill input:focus-visible + label{
+    outline:3px solid #c9a15c66;
+    outline-offset:1px;
+  }
+
+  /* radio row for office type */
+  .radio-row{display:flex;gap:1.5rem;}
+  .radio-row label{display:flex;align-items:center;gap:0.4rem;font-size:0.9rem;cursor:pointer;}
+  .radio-row input{width:auto;}
+
+  /* availability table */
+  .avail-table{width:100%;border-collapse:collapse;}
+  .avail-table th{
+    text-align:left;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;
+    color:var(--ink-soft);font-weight:600;padding:0 0.5rem 0.5rem 0;
+  }
+  .avail-table td{padding:0.3rem 0.5rem 0.3rem 0;}
+  .avail-table td:first-child{font-size:0.88rem;font-weight:500;width:6rem;}
+  .avail-table input[type=time]{font-size:0.85rem;padding:0.4rem 0.5rem;}
+  @media (max-width:480px){
+    .avail-table, .avail-table thead, .avail-table tbody, .avail-table th, .avail-table td, .avail-table tr{display:block;}
+    .avail-table thead{display:none;}
+    .avail-table tr{margin-bottom:0.6rem;padding-bottom:0.6rem;border-bottom:1px solid var(--line);}
+    .avail-table td{width:100%;padding:0.15rem 0;}
+  }
+
+  .file-drop{
+    border:1px dashed #c9c2ae;
+    border-radius:var(--radius);
+    padding:1rem;
+    background:var(--paper);
+  }
+  .file-drop .fname{font-size:0.8rem;color:var(--ink-soft);margin-top:0.4rem;}
+
+  .submit-bar{
+    margin-top:1rem;
+    padding-top:1.5rem;
+    border-top:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    flex-wrap:wrap;
+  }
+  button[type=submit]{
+    background:var(--ink);
+    color:#fff;
+    border:none;
+    padding:0.85rem 1.9rem;
+    font-size:0.95rem;
+    font-weight:600;
+    border-radius:var(--radius);
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  button[type=submit]:hover{background:#0f1a30;}
+  button[type=submit]:disabled{background:#8a8471;cursor:wait;}
+  .status-msg{font-size:0.9rem;}
+  .status-msg.error{color:var(--error);}
+  .status-msg.ok{color:var(--ok);}
+
+  .success-panel{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:4px solid var(--ok);
+    padding:2rem;
+    border-radius:var(--radius);
+    text-align:center;
+  }
+  .success-panel h2{font-family:'Source Serif 4',serif;color:var(--ok);margin-top:0;}
+
+  .required-note{font-size:0.82rem;color:var(--ink-soft);margin-bottom:1.5rem;}
+  .required-note .req{color:var(--error);}
+
+  footer{
+    text-align:center;
+    font-size:0.78rem;
+    color:#8a8471;
+    padding:2rem 1rem 3rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="letterhead">
+  <div class="mark">Psychiatric Clinical Faculty Association</div>
+  <h1>Member Profile Form</h1>
+  <p>Share your background, training, and practice information for the PCFA member directory.</p>
+</header>
+
+<main>
+  <div class="intro">
+    <strong>Before you begin:</strong> have your CV and a recent photo ready to upload. You can save partial progress by keeping this tab open, but the form does not auto-save — please complete it in one sitting if possible.
+  </div>
+
+  <div id="form-wrap">
+  <p class="required-note"><span class="req">*</span> indicates a required field</p>
+
+  <form id="bio-form">
+
+    <!-- Name -->
+    <fieldset>
+      <div class="field-block" style="border-left:none;padding-left:0;">
+        <label class="label-row" for="name">Name<span class="req">*</span></label>
+        <input type="text" id="name" name="Name" required>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 1: Background & Training -->
+    <fieldset>
+      <div class="section-head">
+        <span class="num">01</span>
+        <h2>Background &amp; Training</h2>
+      </div>
+
+      <div class="field-block">
+        <div class="label-row">Undergraduate Degree</div>
+        <div class="grid-2">
+          <div>
+            <label class="small-label" for="ug-year">Year received</label>
+            <input type="text" id="ug-year" name="Undergrad Year" inputmode="numeric" placeholder="e.g. 1988">
+          </div>
+          <div>
+            <label class="small-label" for="ug-inst">Institution</label>
+            <input type="text" id="ug-inst" name="Undergrad Institution">
+          </div>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <div class="label-row">Post-graduate Degree(s)</div>
+        <div class="sub">e.g., M.D., Ph.D., D.O. Add a row for each degree.</div>
+        <div id="degree-rows"></div>
+        <button type="button" class="add-row-btn" id="add-degree">+ Add another degree</button>
+      </div>
+
+      <div class="field-block">
+        <div class="label-row">Psychiatric Residency Training</div>
+        <div class="grid-3">
+          <div>
+            <label class="small-label" for="res-from">Years from</label>
+            <input type="text" id="res-from" name="Residency From" inputmode="numeric" placeholder="1990">
+          </div>
+          <div>
+            <label class="small-label" for="res-to">to</label>
+            <input type="text" id="res-to" name="Residency To" inputmode="numeric" placeholder="1994">
+          </div>
+          <div>
+            <label class="small-label" for="res-inst">Institution</label>
+            <input type="text" id="res-inst" name="Residency Institution">
+          </div>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <div class="label-row">Psychoanalytic Training</div>
+        <div class="sub">If applicable</div>
+        <div class="grid-3">
+          <div>
+            <label class="small-label" for="pa-from">Years from</label>
+            <input type="text" id="pa-from" name="Psychoanalytic From" inputmode="numeric">
+          </div>
+          <div>
+            <label class="small-label" for="pa-to">to</label>
+            <input type="text" id="pa-to" name="Psychoanalytic To" inputmode="numeric">
+          </div>
+          <div>
+            <label class="small-label" for="pa-inst">Institution</label>
+            <input type="text" id="pa-inst" name="Psychoanalytic Institution">
+          </div>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="other-training">Other Professional Training</label>
+        <textarea id="other-training" name="Other Professional Training"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 2: Practice Information -->
+    <fieldset>
+      <div class="section-head">
+        <span class="num">02</span>
+        <h2>Practice Information</h2>
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="practice-style">Practice Style</label>
+        <textarea id="practice-style" name="Practice Style"></textarea>
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="theoretical">Theoretical Orientation</label>
+        <textarea id="theoretical" name="Theoretical Orientation"></textarea>
+      </div>
+
+      <div class="field-block">
+        <div class="label-row">Type of Patients</div>
+        <div class="sub">Check all that apply</div>
+        <div class="pill-group" id="patient-types">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="diagnostic">Diagnostic Interests</label>
+        <textarea id="diagnostic" name="Diagnostic Interests"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 3: Supervision -->
+    <fieldset>
+      <div class="section-head">
+        <span class="num">03</span>
+        <h2>Supervision Information</h2>
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="residents-supervised">Residents Supervised in the Last Five Years</label>
+        <div class="sub">Names, one per line is fine</div>
+        <textarea id="residents-supervised" name="Residents Supervised" style="min-height:6.5rem;"></textarea>
+      </div>
+
+      <div class="field-block">
+        <div class="label-row">Hours of Availability to Supervise a Resident at This Time</div>
+        <table class="avail-table">
+          <thead><tr><th>Day</th><th>From</th><th>To</th></tr></thead>
+          <tbody id="avail-body"></tbody>
+        </table>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 4: Contact -->
+    <fieldset>
+      <div class="section-head">
+        <span class="num">04</span>
+        <h2>Office &amp; Contact</h2>
+      </div>
+
+      <div class="field-block">
+        <div class="label-row">Office Type</div>
+        <div class="radio-row">
+          <label><input type="radio" name="Office Type" value="Commercial"> Commercial</label>
+          <label><input type="radio" name="Office Type" value="Residential"> Residential</label>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="address">Address</label>
+        <input type="text" id="address" name="Address">
+      </div>
+
+      <div class="field-block">
+        <div class="grid-2">
+          <div>
+            <label class="small-label" for="office-phone">Office Phone</label>
+            <input type="tel" id="office-phone" name="Office Phone">
+          </div>
+          <div>
+            <label class="small-label" for="mobile-phone">Mobile Phone</label>
+            <input type="tel" id="mobile-phone" name="Mobile Phone">
+          </div>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="emergency-contact">Other Emergency Contact Number</label>
+        <div class="sub">Important for those who refer patients to UCLA</div>
+        <input type="tel" id="emergency-contact" name="Emergency Contact">
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="email">E-Mail<span class="req">*</span></label>
+        <input type="email" id="email" name="Email" required>
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="other-info">Other Pertinent Information</label>
+        <textarea id="other-info" name="Other Pertinent Information"></textarea>
+      </div>
+    </fieldset>
+
+    <!-- SECTION 5: Attachments -->
+    <fieldset>
+      <div class="section-head">
+        <span class="num">05</span>
+        <h2>Attachments</h2>
+        <span class="hint">CV and recent photo</span>
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="cv-file">Curriculum Vitae</label>
+        <div class="file-drop">
+          <input type="file" id="cv-file" name="CV" accept=".pdf,.doc,.docx">
+          <div class="fname" id="cv-fname">PDF or Word document</div>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <label class="label-row" for="photo-file">Recent Photo</label>
+        <div class="file-drop">
+          <input type="file" id="photo-file" name="Photo" accept="image/*">
+          <div class="fname" id="photo-fname">JPG or PNG, headshot preferred</div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="submit-bar">
+      <button type="submit" id="submit-btn">Submit Profile</button>
+      <span class="status-msg" id="status-msg"></span>
+    </div>
+  </form>
+  </div>
+
+  <div class="success-panel" id="success-panel" style="display:none;">
+    <h2>Thank you</h2>
+    <p>Your profile has been submitted to PCFA. We'll be in touch if we need anything further.</p>
+  </div>
+</main>
+
+<footer>Psychiatric Clinical Faculty Association &middot; UCLA David Geffen School of Medicine</footer>
+
+<script>
+  // ---- CONFIG ----
+  // Replace with your Formspree form ID (e.g. "mzbqzzzz") from https://formspree.io
+  const FORMSPREE_ID = "mbdnawlk";
+  const FORMSPREE_URL = `https://formspree.io/f/${FORMSPREE_ID}`;
+
+  // ---- Post-graduate degree rows ----
+  const degreeContainer = document.getElementById('degree-rows');
+  let degreeCount = 0;
+
+  function addDegreeRow(prefill){
+    degreeCount++;
+    const idx = degreeCount;
+    const row = document.createElement('div');
+    row.className = 'degree-row';
+    row.innerHTML = `
+      <div>
+        <label class="small-label">Degree</label>
+        <input type="text" name="Degree ${idx}" placeholder="M.D.">
+      </div>
+      <div>
+        <label class="small-label">Year received</label>
+        <input type="text" name="Degree ${idx} Year" inputmode="numeric">
+      </div>
+      <div>
+        <label class="small-label">Institution</label>
+        <input type="text" name="Degree ${idx} Institution">
+      </div>
+      <button type="button" class="remove-row" aria-label="Remove this degree row">Remove</button>
+    `;
+    row.querySelector('.remove-row').addEventListener('click', () => row.remove());
+    degreeContainer.appendChild(row);
+  }
+  document.getElementById('add-degree').addEventListener('click', () => addDegreeRow());
+  // start with two rows, matching the original paper form
+  addDegreeRow(); addDegreeRow();
+
+  // ---- Patient type pills ----
+  const patientTypes = ['Individuals','Couples','Families','Groups','Children','Adolescents','Adults','Geriatric','Inpatient'];
+  const patientContainer = document.getElementById('patient-types');
+  patientTypes.forEach((type, i) => {
+    const id = 'ptype-' + i;
+    const wrap = document.createElement('div');
+    wrap.className = 'pill';
+    wrap.innerHTML = `
+      <input type="checkbox" id="${id}" name="Patient Types" value="${type}">
+      <label for="${id}">${type}</label>
+    `;
+    patientContainer.appendChild(wrap);
+  });
+
+  // ---- Availability table ----
+  const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const availBody = document.getElementById('avail-body');
+  days.forEach(day => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${day}</td>
+      <td><input type="time" name="${day} From"></td>
+      <td><input type="time" name="${day} To"></td>
+    `;
+    availBody.appendChild(tr);
+  });
+
+  // ---- File name display ----
+  document.getElementById('cv-file').addEventListener('change', function(){
+    document.getElementById('cv-fname').textContent = this.files.length ? this.files[0].name : 'PDF or Word document';
+  });
+  document.getElementById('photo-file').addEventListener('change', function(){
+    document.getElementById('photo-fname').textContent = this.files.length ? this.files[0].name : 'JPG or PNG, headshot preferred';
+  });
+
+  // ---- Submit ----
+  const form = document.getElementById('bio-form');
+  const statusMsg = document.getElementById('status-msg');
+  const submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    if (FORMSPREE_ID === "YOUR_FORM_ID") {
+      statusMsg.className = 'status-msg error';
+      statusMsg.textContent = 'Form is not yet connected — set FORMSPREE_ID in the page source.';
+      return;
+    }
+
+    statusMsg.className = 'status-msg';
+    statusMsg.textContent = '';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    // gather checked patient types into one field for readability in email
+    const checked = Array.from(document.querySelectorAll('input[name="Patient Types"]:checked')).map(cb => cb.value);
+    const hiddenTypes = document.createElement('input');
+    hiddenTypes.type = 'hidden';
+    hiddenTypes.name = 'Patient Types (summary)';
+    hiddenTypes.value = checked.join(', ') || 'None selected';
+    form.appendChild(hiddenTypes);
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        document.getElementById('form-wrap').style.display = 'none';
+        document.getElementById('success-panel').style.display = 'block';
+        window.scrollTo({top:0, behavior:'smooth'});
+      } else {
+        const data = await response.json().catch(() => null);
+        const msg = data && data.errors ? data.errors.map(e => e.message).join('; ') : 'Something went wrong. Please try again.';
+        statusMsg.className = 'status-msg error';
+        statusMsg.textContent = msg;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Profile';
+      }
+    } catch (err) {
+      statusMsg.className = 'status-msg error';
+      statusMsg.textContent = 'Network error — please check your connection and try again.';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Profile';
+    } finally {
+      hiddenTypes.remove();
+    }
+  });
+</script>
+
+</body>
+</html>
