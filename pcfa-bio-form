@@ -307,7 +307,7 @@
 
 <main>
   <div class="intro">
-    <strong>Before you begin:</strong> have your CV and a recent photo ready to upload. You can save partial progress by keeping this tab open, but the form does not auto-save â please complete it in one sitting if possible.
+    <strong>Before you begin:</strong> have your CV and a recent photo ready to upload. You can save partial progress by keeping this tab open, but the form does not auto-save — please complete it in one sitting if possible.
   </div>
 
   <div id="form-wrap">
@@ -370,7 +370,7 @@
       </div>
 
       <div class="field-block">
-        <div class="label-row">Psychoanalytic Training (if applicable)</div>
+        <div class="label-row">Psychoanalytic Training</div>
         <div class="sub">If applicable</div>
         <div class="grid-3">
           <div>
@@ -619,14 +619,14 @@
 
     if (FORMSPREE_ID === "YOUR_FORM_ID") {
       statusMsg.className = 'status-msg error';
-      statusMsg.textContent = 'Form is not yet connected â set FORMSPREE_ID in the page source.';
+      statusMsg.textContent = 'Form is not yet connected — set FORMSPREE_ID in the page source.';
       return;
     }
 
     statusMsg.className = 'status-msg';
     statusMsg.textContent = '';
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Submittingâ¦';
+    submitBtn.textContent = 'Submitting…';
 
     // gather checked patient types into one field for readability in email
     const checked = Array.from(document.querySelectorAll('input[name="Patient Types"]:checked')).map(cb => cb.value);
@@ -659,7 +659,7 @@
       }
     } catch (err) {
       statusMsg.className = 'status-msg error';
-      statusMsg.textContent = 'Network error â please check your connection and try again.';
+      statusMsg.textContent = 'Network error — please check your connection and try again.';
       submitBtn.disabled = false;
       submitBtn.textContent = 'Submit Profile';
     } finally {
